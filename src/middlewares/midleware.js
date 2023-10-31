@@ -2,16 +2,19 @@
 const jwt = require("../lib/jwt");
 const { SECRET } = require("../constants");
 
-exports.auth = (req, res, next) => {
+exports.auth = async (req, res, next) => {
     const token = req.cookies['wizardCreature']
+    console.log(`\ntoken middleware ${token}`);
     if (!token) {
         res.clearCookie("wizardCreature")
+        console.log('\n cookies are cleared from middleware !');
         res.render('home')
-        next()
+        
     }
     res.cookie("wizardCreature", token)
+    console.log('\n cookies are set middleware !');
     res.locals.isAuth = true
-    next()
+    await next()
 }
 
 exports.authFromZweti = async (req, res, next) => {
