@@ -10,6 +10,7 @@ const app = express()
 expressConfig(app)
 handConfig(app) ////
 
+
 app.use(router)
 
 dbConect()

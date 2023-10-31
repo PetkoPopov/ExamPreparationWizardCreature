@@ -1,5 +1,5 @@
 const mongoose = require("mongoose")
-
+const bcrypt =require("bcrypt")
 
 const mongoSchema = mongoose.Schema({
     firstName: { type: String },
@@ -16,16 +16,16 @@ const mongoSchema = mongoose.Schema({
     }
 
 })
-mongoSchema.virtual("repeatPassword").set(function (value) {
-    if (value !== this.password) {
+mongoSchema.virtual("repeatPassword").set( function (value) {
+    if ( value !== this.password ) {
         throw new Error('Password does not match')
     }
 })
 
-// mongoSchema.pre("save",async function(){
-// const hash =await bcrypt.hash(this.password,10)
-// this.password=hash
-// })
+mongoSchema.pre("save",async function(){
+const hash =await bcrypt.hash(this.password,10)
+this.password=hash
+})
 
 const User = mongoose.model("user", mongoSchema)
 
